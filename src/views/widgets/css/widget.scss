@@ -1,0 +1,30 @@
+.widget-body-top {
+  height: 90px;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 68px;
+  padding-right: 0px;
+  padding-left: 0px;
+  color: white;
+  font-weight: 400;
+  font-size: 20px;
+}
+.widget-body-top-color-yellow {
+  background: rgb(249, 177, 21);
+}
+.widget-body-top-row {
+  height: calc(100vh - 105px);
+  overflow-y: auto;
+}
+.widget-body-row {
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+.widget-body-col {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 13px;
+  padding-right: 0px;
+  padding-left: 0px;
+  font-weight: 500;
+}

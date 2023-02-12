@@ -1,0 +1,13 @@
+.editscheduledsound .modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  color: var(--cui-modal-color);
+  pointer-events: auto;
+  background-color: var(--cui-modal-bg);
+  background-clip: padding-box;
+  border: var(--cui-modal-border-width) solid var(--cui-modal-border-color);
+  border-radius: var(--cui-modal-border-radius);
+  outline: 0;
+}

@@ -1,0 +1,27 @@
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
+  background-color: rgba(25, 118, 210, 0.2) !important;
+}
+
+.playlist-title {
+  border-right: 1px solid #e5e0e0 !important;
+  border-left: 1px solid #e5e0e0 !important;
+  padding: 0px 0px 0px 19px;
+  min-height: 0px;
+  width: 100%;
+  background: #fdbaba;
+  display: inline-block;
+  border-bottom: 0px !important;
+  //border-radius: 5px 5px 0px 0px;
+}
+
+.playlist-header {
+  border-bottom: 1px solid #ccc !important;
+  border-right: 1px solid #e5e0e0 !important;
+  border-left: 1px solid #e5e0e0 !important;
+}
+
+.playlist-listGroup {
+  border-radius: 0px;
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
