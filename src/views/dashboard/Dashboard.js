@@ -5,7 +5,6 @@ import TimelineContainer from './timeline/TimelineContainer'
 
 const Dashboard = () => {
   const [showTimeline, setShowTimeline] = useState(false)
-  const [raspberryList, setraspberryList] = useState([])
   const [selectedRaspberry, setselectedRaspberry] = useState(null)
 
   return (
@@ -14,8 +13,6 @@ const Dashboard = () => {
         <WidgetsBrand
           setShowTimeline={setShowTimeline}
           showTimeline={showTimeline}
-          raspberryList={raspberryList}
-          setraspberryList={setraspberryList}
           setselectedRaspberry={setselectedRaspberry}
         />
       </CCol>

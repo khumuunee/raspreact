@@ -189,6 +189,11 @@ const ListRaspberryGroup = (props) => {
     props.onClickPlaylistButton()
   }
 
+  const onClickScheduledSoundButton = (group) => {
+    props.setSelectedGroup([group.name])
+    props.onClickScheduledSoundButton()
+  }
+
   return (
     <>
       <CContainer className="header control-title" style={{ background: 'rgb(145 227 162)' }}>
@@ -271,7 +276,7 @@ const ListRaspberryGroup = (props) => {
                       <CIcon icon={cilFeaturedPlaylist} style={{ color: '#0a009f' }} />
                     </span>
                     <span
-                      // onClick={() => onClickScheduledSoundButton(rasp)}
+                      onClick={() => onClickScheduledSoundButton(group)}
                       style={{ color: 'black', marginLeft: '20px' }}
                     >
                       <AccessAlarms style={{ width: '20px', color: 'rgb(243 112 0)' }} />

@@ -18,6 +18,8 @@ export const MainStore = (props) => {
   const [showLoader, setShowLoader] = useState(false)
   const [toast, setToast] = useState(initialToas)
   const [modal, setModal] = useState(intialModal)
+  const [statusCounter, setStatusCounter] = useState(-1)
+  const [raspberryList, setraspberryList] = useState([])
 
   const [allValue, setAllValue] = useState({
     textEditorValue: '',
@@ -140,6 +142,10 @@ export const MainStore = (props) => {
         closeModal,
         onClickModalYesButton,
         onCloseModal,
+        statusCounter,
+        setStatusCounter,
+        raspberryList,
+        setraspberryList,
       }}
     >
       {props.children}

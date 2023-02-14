@@ -1,11 +1,11 @@
 import { CCol, CContainer, CHeaderBrand, CListGroup, CListGroupItem, CRow } from '@coreui/react'
-import { AccessAlarms, AddCircle, CloudSync, Edit, MusicVideo, Radio } from '@mui/icons-material'
+import { AccessAlarms, AddCircle, CloudSync, Edit, MusicVideo } from '@mui/icons-material'
 import CableIcon from '@mui/icons-material/Cable'
 import DeleteIcon from '@mui/icons-material/Delete'
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 import { Checkbox, IconButton, Tooltip } from '@mui/material'
 
+import { cilFeaturedPlaylist } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
@@ -15,8 +15,6 @@ import MainContext from 'src/context/MainContext'
 import { sortBy, validateIpAddress } from 'src/tools/BaseTool'
 import { handleError, handleResponse } from 'src/tools/RestServiceTool'
 import RaspModal from '../raspmodal/RaspModal'
-import CIcon from '@coreui/icons-react'
-import { cibAppleMusic, cilFeaturedPlaylist } from '@coreui/icons'
 
 const ListRaspberry = (props) => {
   const [selectAll, setSelectAll] = useState(false)

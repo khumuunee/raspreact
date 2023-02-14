@@ -199,12 +199,12 @@ const Player = (props) => {
     return soundName === currentSong.name
   }
 
-  const onClickPlaySound = (soundName) => {
+  const onClickPlaySound = (soundName, index) => {
     mainContext.setShowLoader(true)
     axiosInstance
       .post('/playSoundWithNameInRaspberry', {
         raspIpAddress: props.playerData.raspIpAddress,
-        soundName: soundName,
+        soundName: soundName + 'ENUUGEERTASLAARAI' + index,
       })
       .then((res) => {
         handleResponse(res)
@@ -257,7 +257,7 @@ const Player = (props) => {
                   <CCol xs="3" style={{ textAlign: 'right' }}>
                     <IconButton
                       className="player-list-sound-item"
-                      onClick={() => onClickPlaySound(sound)}
+                      onClick={() => onClickPlaySound(sound, idx)}
                     >
                       <PlayCircle style={isActiveSound(sound) ? { color: 'green' } : {}} />
                     </IconButton>

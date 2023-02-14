@@ -2,6 +2,7 @@ import { CCol, CContainer, CRow } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import ListRaspberryGroup from './listraspberrygroup/ListRaspberryGroup'
 import ListRaspberryGroupPlaylist from './listraspberrygroupplaylist/ListRaspberryGroupPlaylist'
+import ListRaspberryGroupScheduledSound from './listraspberrygroupscheduledsound/ListRaspberryGroupScheduledSound'
 import ListRaspberryInGroup from './listraspberryingroup/ListRaspberryInGroup'
 
 const RaspberryGroup = () => {
@@ -34,6 +35,15 @@ const RaspberryGroup = () => {
     setShowPlaylistCounter(showPlaylistCounter === 1000 ? 0 : showPlaylistCounter + 1)
   }
 
+  const onClickScheduledSoundButton = () => {
+    setshowPlaylist(false)
+    setshowScheduledSound(true)
+    setshowRaspberrysList(false)
+    setshowScheduledSoundCounter(
+      showScheduledSoundCounter === 1000 ? 0 : showScheduledSoundCounter + 1,
+    )
+  }
+
   return (
     <>
       <CContainer>
@@ -46,6 +56,7 @@ const RaspberryGroup = () => {
               grouplist={grouplist}
               setGrouplist={setGrouplist}
               onClickPlaylistButton={onClickPlaylistButton}
+              onClickScheduledSoundButton={onClickScheduledSoundButton}
             />
           </CCol>
           {showRaspberrysList && (
@@ -66,6 +77,17 @@ const RaspberryGroup = () => {
                 grouplist={grouplist}
                 showPlaylistCounter={showPlaylistCounter}
                 setshowPlaylist={setshowPlaylist}
+              />
+            </CCol>
+          )}
+          {showScheduledSound && (
+            <CCol xs={5} style={{ paddingRight: '0px' }}>
+              <ListRaspberryGroupScheduledSound
+                showScheduledSound={showScheduledSound}
+                grouplist={grouplist}
+                selectedGroup={selectedGroup}
+                showScheduledSoundCounter={showScheduledSoundCounter}
+                setshowScheduledSound={setshowScheduledSound}
               />
             </CCol>
           )}

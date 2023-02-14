@@ -1,11 +1,5 @@
 import { CCol, CContainer, CHeaderBrand, CListGroup, CListGroupItem, CRow } from '@coreui/react'
-import {
-  AddCircle,
-  Close,
-  FullscreenExit,
-  HighlightOff,
-  KeyboardDoubleArrowLeft,
-} from '@mui/icons-material'
+import { AddCircle, FullscreenExit } from '@mui/icons-material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Checkbox, IconButton } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
@@ -13,26 +7,22 @@ import axiosInstance from 'src/axios-blm'
 import MainContext from 'src/context/MainContext'
 import { sortBy } from 'src/tools/BaseTool'
 import { handleError, handleResponse } from 'src/tools/RestServiceTool'
-import AllPlaylistsModal from '../allplaylistsmodal/AllPlaylistsModal'
-import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle'
-import AllScheduledSoundsModal from '../allscheduledsoundsmodal/AllScheduledSoundsModal'
-import CIcon from '@coreui/icons-react'
-import { cibRaspberryPi, cilObjectGroup } from '@coreui/icons'
+import AllScheduledSoundsModal from '../../raspberry/allscheduledsoundsmodal/AllScheduledSoundsModal'
 
-const ListRaspberryScheduledSound = (props) => {
+const ListRaspberryGroupScheduledSound = (props) => {
   const [selectAll, setSelectAll] = useState(false)
   const [scheduledSoundGroups, setscheduledSoundGroups] = useState([])
   const [selectedScheduledSoundGroups, setSelectedScheduledSoundGroups] = useState([])
   const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true)
   const [showAllScheduledSoungGroupModal, setshowAllScheduledSoungGroupModal] = useState(false)
-  const [currentRaspName, setcurrentRaspName] = useState('')
+  const [currentRaspGroupName, setcurrentRaspGroupName] = useState('')
   const mainContext = useContext(MainContext)
 
   useEffect(() => {
-    if (props.showScheduledSound) loadRaspberrysScheduledSoundGroup()
+    if (props.showScheduledSound) loadRaspberryGroupScheduledSoundGroup()
     else setscheduledSoundGroups([])
     setSelectedScheduledSoundGroups([])
-    setcurrentRaspName(getSelectedRaspName())
+    setcurrentRaspGroupName(getSelectedRaspGroupName())
   }, [props.showScheduledSoundCounter])
 
   useEffect(() => {
@@ -42,9 +32,7 @@ const ListRaspberryScheduledSound = (props) => {
   const handleSelectAllChange = (event) => {
     setSelectAll(event.target.checked)
     if (event.target.checked)
-      setSelectedScheduledSoundGroups(
-        scheduledSoundGroups.filter((x) => x.isRaspGroup == 0).map((x) => x.groupName),
-      )
+      setSelectedScheduledSoundGroups(scheduledSoundGroups.map((x) => x.groupName))
     else setSelectedScheduledSoundGroups([])
   }
 
@@ -54,27 +42,27 @@ const ListRaspberryScheduledSound = (props) => {
 
   const onClickDeleteButton = () => {
     mainContext.showModal(
-      'Remove group - ' + currentRaspName,
-      'Are sure remove scheduled sound group from the Raspberry?',
+      'Remove group - ' + currentRaspGroupName,
+      'Are sure remove scheduled sound group from the Raspberry group?',
       onClickDeleteButtonYes,
     )
   }
 
   const onClickDeleteButtonYes = () => {
     mainContext.setShowLoader(true)
-    const raspId = getSelectedRaspId()
+    const raspGroupId = getSelectedRaspGroupId()
     const groupIds = scheduledSoundGroups
       .filter((x) => selectedScheduledSoundGroups.indexOf(x.groupName) > -1)
       .map((x) => x.groupId)
     axiosInstance
-      .post('/removeScheduledSoundGroupsFromRaspberry', {
+      .post('/removeScheduledSoundGroupsFromRaspberryGroup', {
         groupIds: groupIds,
-        raspId: raspId,
+        raspGroupId: raspGroupId,
       })
       .then((res) => {
         handleResponse(res)
         setSelectedScheduledSoundGroups([])
-        loadRaspberrysScheduledSoundGroup()
+        loadRaspberryGroupScheduledSoundGroup()
       })
       .catch((err) => {
         handleError(err, mainContext)
@@ -84,18 +72,17 @@ const ListRaspberryScheduledSound = (props) => {
       })
   }
 
-  const onClickSoundGroup = (groupName, isRaspGroup) => {
-    if (isRaspGroup == 1) return
+  const onClickSoundGroup = (groupName) => {
     if (selectedScheduledSoundGroups.indexOf(groupName) > -1)
       setSelectedScheduledSoundGroups((prev) => prev.filter((x) => x !== groupName))
     else setSelectedScheduledSoundGroups((prev) => [...prev, groupName])
   }
 
-  const loadRaspberrysScheduledSoundGroup = () => {
+  const loadRaspberryGroupScheduledSoundGroup = () => {
     mainContext.setShowLoader(true)
-    const raspId = getSelectedRaspId()
+    const raspGroupId = getSelectedRaspGroupId()
     axiosInstance
-      .get('/loadRaspberrysScheduledSoundGroup/' + raspId)
+      .get('/loadRaspberryGroupScheduledSoundGroup/' + raspGroupId)
       .then((res) => {
         handleResponse(res)
         if (res.data.listGroup) {
@@ -112,34 +99,32 @@ const ListRaspberryScheduledSound = (props) => {
       })
   }
 
-  const getSelectedRaspId = () => {
-    return getSelectedRasp().id
+  const getSelectedRaspGroupId = () => {
+    return getSelectedRaspGroup().id
   }
-  const getSelectedRaspName = () => {
-    return getSelectedRasp().name
+  const getSelectedRaspGroupName = () => {
+    return getSelectedRaspGroup().name
   }
-  const getSelectedRasp = () => {
-    return props.raspberryList[
-      props.raspberryList.map((x) => x.name).indexOf(props.selectedRaspberryList[0])
-    ]
+  const getSelectedRaspGroup = () => {
+    return props.grouplist[props.grouplist.map((x) => x.name).indexOf(props.selectedGroup[0])]
   }
 
-  const addScheduledSoundGroupToRaspberry = (addedGroupIds) => {
+  const addScheduledSoundGroupToRaspberryGroup = (addedGroupIds) => {
     if (addedGroupIds.length == 0) {
       mainContext.showWarningToast('Please select the scheduled sound group')
       return
     }
     setshowAllScheduledSoungGroupModal(false)
-    const raspId = getSelectedRaspId()
+    const raspGroupId = getSelectedRaspGroupId()
     mainContext.setShowLoader(true)
     axiosInstance
-      .post('/addScheduledSoundGroupToRaspberry', {
-        raspId: raspId,
+      .post('/addScheduledSoundGroupToRaspberryGroup', {
+        raspGroupId: raspGroupId,
         addedGroupIds: addedGroupIds,
       })
       .then((res) => {
         handleResponse(res)
-        loadRaspberrysScheduledSoundGroup()
+        loadRaspberryGroupScheduledSoundGroup()
       })
       .catch((err) => {
         handleError(err, mainContext)
@@ -161,7 +146,7 @@ const ListRaspberryScheduledSound = (props) => {
             <CHeaderBrand>Scheduled sound</CHeaderBrand>
           </CCol>
           <CCol xs={6} style={{ textAlign: 'right' }}>
-            <CHeaderBrand>{currentRaspName}</CHeaderBrand>
+            <CHeaderBrand>{currentRaspGroupName}</CHeaderBrand>
           </CCol>
         </CRow>
       </CContainer>
@@ -204,36 +189,22 @@ const ListRaspberryScheduledSound = (props) => {
             </div>
           ) : (
             <div>
-              <CListGroup
-                className={props.showPlayer ? 'control-listGroup-short' : 'control-listGroup'}
-              >
+              <CListGroup className="control-listGroup">
                 {scheduledSoundGroups.map((soundGroup, idx) => (
                   <CListGroupItem
                     key={idx}
                     component="button"
-                    onClick={() => onClickSoundGroup(soundGroup.groupName, soundGroup.isRaspGroup)}
+                    onClick={() => onClickSoundGroup(soundGroup.groupName)}
                     active={selectedScheduledSoundGroups.indexOf(soundGroup.groupName) > -1}
                   >
                     <CRow>
-                      <CCol xs="11">
+                      <CCol xs="9">
                         <Checkbox
                           style={{ padding: '0px 10px 0px 1px' }}
                           value={soundGroup.groupName}
                           checked={selectedScheduledSoundGroups.indexOf(soundGroup.groupName) > -1}
                         />
                         {soundGroup.groupName}
-                      </CCol>
-                      <CCol xs="1">
-                        {soundGroup.isRaspGroup == 1 && (
-                          <span>
-                            <CIcon icon={cilObjectGroup} />
-                          </span>
-                        )}
-                        {soundGroup.isRaspGroup == 0 && (
-                          <span>
-                            <CIcon icon={cibRaspberryPi} />
-                          </span>
-                        )}
                       </CCol>
                     </CRow>
                   </CListGroupItem>
@@ -253,7 +224,7 @@ const ListRaspberryScheduledSound = (props) => {
         <AllScheduledSoundsModal
           visible={showAllScheduledSoungGroupModal}
           onClose={() => setshowAllScheduledSoungGroupModal(false)}
-          addScheduledSoundGroupToRaspberry={addScheduledSoundGroupToRaspberry}
+          addScheduledSoundGroupToRaspberry={addScheduledSoundGroupToRaspberryGroup}
           scheduledSoundGroups={scheduledSoundGroups}
         />
       )}
@@ -261,4 +232,4 @@ const ListRaspberryScheduledSound = (props) => {
   )
 }
 
-export default ListRaspberryScheduledSound
+export default ListRaspberryGroupScheduledSound

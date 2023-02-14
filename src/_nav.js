@@ -20,6 +20,9 @@ const _nav = [
     //   color: 'info',
     //   text: 'NEW',
     // },
+    refreshButton: {
+      tooltip: 'refresh',
+    },
   },
   {
     component: CNavTitle,

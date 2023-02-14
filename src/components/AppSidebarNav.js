@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { CBadge } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilReload, cilSpeedometer } from '@coreui/icons'
+import MainContext from 'src/context/MainContext'
 
 export const AppSidebarNav = ({ items }) => {
+  const mainContext = useContext(MainContext)
   const location = useLocation()
-  const navLink = (name, icon, badge) => {
+  const onClickRefreshDashboard = () => {
+    mainContext.setStatusCounter(-2)
+  }
+  const navLink = (name, icon, badge, refreshButton) => {
     return (
       <>
         {icon && icon}
@@ -16,12 +23,20 @@ export const AppSidebarNav = ({ items }) => {
             {badge.text}
           </CBadge>
         )}
+        {refreshButton && (
+          <CIcon
+            icon={cilReload}
+            onClick={onClickRefreshDashboard}
+            style={{ position: 'relative', left: '50px' }}
+            customClassName="nav-icon"
+          />
+        )}
       </>
     )
   }
 
   const navItem = (item, index) => {
-    const { component, name, badge, icon, ...rest } = item
+    const { component, name, badge, refreshButton, icon, ...rest } = item
     const Component = component
     return (
       <Component
@@ -32,7 +47,7 @@ export const AppSidebarNav = ({ items }) => {
         key={index}
         {...rest}
       >
-        {navLink(name, icon, badge)}
+        {navLink(name, icon, badge, refreshButton)}
       </Component>
     )
   }

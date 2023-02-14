@@ -55,7 +55,7 @@ export const sortByMultiple = (args) => {
      * as long as we have extra properties to compare
      */
     while (result === 0 && i < numberOfProperties) {
-      result = dynamicSort(properties[i])(obj1, obj2)
+      result = sortBy(properties[i])(obj1, obj2)
       i++
     }
     return result
