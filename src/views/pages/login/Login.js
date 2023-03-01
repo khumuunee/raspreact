@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
@@ -29,6 +29,10 @@ const Login = () => {
   const navigate = useNavigate()
   const mainContext = useContext(MainContext)
 
+  useEffect(() => {
+    sessionStorage.setItem('userInfo', JSON.stringify({}))
+  }, [])
+
   const changeUserName = (e) => {
     setShowWarningText(false)
     setUserName(e.target.value)
@@ -53,7 +57,8 @@ const Login = () => {
         setWarningText('Username or password invalid')
         return
       }
-      mainContext.setUserInfo({ ...mainContext.userInfo, userId: userName })
+      sessionStorage.setItem('userInfo', JSON.stringify({ userId: userName }))
+      // mainContext.setUserInfo({ ...mainContext.userInfo, userId: userName })
       navigate('/dashboard')
     })
   }
@@ -98,16 +103,16 @@ const Login = () => {
                       </div>
                     )}
                     <CRow>
-                      <CCol xs={6}>
+                      <CCol style={{ textAlign: 'right' }}>
                         <CButton color="primary" className="px-4" type="submit" onClick={login}>
                           Login
                         </CButton>
                       </CCol>
-                      <CCol xs={6} className="text-right">
+                      {/* <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
                           Forgot password?
                         </CButton>
-                      </CCol>
+                      </CCol> */}
                     </CRow>
                   </CForm>
                 </CCardBody>

@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react'
 import LoadingOverlay from 'react-loading-overlay'
+import { useNavigate } from 'react-router-dom'
 import BeatLoader from 'react-spinners/BeatLoader'
 import MyQuestionModal from 'src/components/MyQuestionModal'
 import MainContext from 'src/context/MainContext'
@@ -7,16 +8,16 @@ import { AppContent, AppHeader, AppSidebar } from '../components/index'
 LoadingOverlay.propTypes = undefined
 
 const DefaultLayout = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const mainContext = useContext(MainContext)
 
   useEffect(() => {
     // Check user is logged in
-    // if (!mainContext.userInfo.userId) {
-    //   console.log('orloo')
-    //   navigate('login')
-    //   return
-    // }
+    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+    if (!userInfo || !userInfo?.userId) {
+      navigate('login')
+      return
+    }
   }, [])
 
   return (
