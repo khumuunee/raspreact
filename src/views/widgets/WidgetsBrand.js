@@ -59,6 +59,11 @@ const WidgetsBrand = (props) => {
       mainContext.setStatusCounter(0)
       return
     }
+    if (mainContext.statusCounter > mainContext.raspberryList.length - 1) {
+      if (mainContext.raspberryList.length === 0) mainContext.setStatusCounter(-1)
+      else mainContext.setStatusCounter(0)
+      return
+    }
     mainContext.raspberryList[mainContext.statusCounter]
     axiosInstance
       .post('/getCurrentPlayerStatusFromRaspberry', {
