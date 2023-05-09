@@ -7,7 +7,15 @@ const RaspModal = (props) => {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    setTimeout(() => inputRef.current.focus(), 200)
+    setTimeout(() => {
+      console.log('RaspModal useEffect')
+      if (inputRef && inputRef.current) {
+        console.log('focus')
+        inputRef.current.focus()
+      } else {
+        console.log('not focus')
+      }
+    }, 300)
   }, [])
 
   const onKeyDown = (e) => {

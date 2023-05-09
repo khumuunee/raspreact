@@ -8,12 +8,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import './editscheduledsound.scss'
 
 const EditScheduledSound = (props) => {
-  const inputRef = useRef(null)
-
-  //   useEffect(() => {
-  //     setTimeout(() => inputRef.current.focus(), 200)
-  //   }, [])
-
   const onKeyDown = (e) => {
     if (e.keyCode === 13) {
       props.saveScheduledSound()
